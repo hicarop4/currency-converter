@@ -18,4 +18,29 @@
   .chart {
     @apply w-96 h-96 bg-gradient-to-b from-chart-gradient-50 to-chart-gradient-0;
   }
+
+  .dropdown {
+    @apply absolute w-24 z-50 bg-white flex-col justify-start mt-1 shadow-sm rounded-xl
+     text-gray-400;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 999px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }

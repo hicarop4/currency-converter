@@ -1,13 +1,18 @@
+import Dropdown from "@/components/Dropdown";
 import Head from "next/head";
 const axios = require("axios");
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FaExchangeAlt } from "react-icons/fa";
 
 export default function Home({ currencies: { data } }) {
   const [input, setInput] = useState("");
   const [result, setResult] = useState(0);
+
+  const [fromCurrency, setFromCurrency] = useState("BRL");
+  const [toCurrency, setToCurrency] = useState("USD");
+
   const formatInput = (text) => {
-    // THANKS GPT
+    // THANKS CHATGPT
     if (text === 0) return;
 
     // convert commas to dots
@@ -24,19 +29,28 @@ export default function Home({ currencies: { data } }) {
     return formatText;
   };
 
-  const handleChange = (e) => {
-    const text = e.target.value;
-    const formatText = formatInput(text);
-    const resultValue = ((1 / data.BRL.value) * Number(formatText)).toFixed(2);
+  const calculation = (formatText) => {
+    const coeficient = 1 / (data[fromCurrency].value / data[toCurrency].value);
+    const result = (Number(formatText) * coeficient).toFixed(2);
 
-    setInput(formatText);
-    setResult(resultValue);
+    return result;
   };
 
+  const handleInputChange = (e) => {
+    const text = e.target.value;
+    const formatText = formatInput(text);
+    setInput(formatText);
+  };
+
+  useEffect(() => {
+    const resultValue = calculation(input);
+    setResult(resultValue);
+  }, [input, fromCurrency, toCurrency]);
+
   const invertCurrency = () => {
-    const temp = input;
-    setInput(result);
-    setResult(temp);
+    const temp = fromCurrency;
+    setFromCurrency(toCurrency);
+    setToCurrency(temp);
   };
 
   return (
@@ -47,18 +61,18 @@ export default function Home({ currencies: { data } }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="bg-white min-w-[376px] px-8 py-6 rounded-lg shadow-lg border-highlight border-2">
+      <main className="bg-white min-w-[376px] px-8 py-6 rounded-lg shadow-lg border-gray-500/50 border-2">
         <section>
           <h1 className="font-bold">Conversor de moedas</h1>
           <div className="flex gap-3 items-center">
             <input
-              onChange={handleChange}
+              onChange={handleInputChange}
               className="input-text"
               value={input}
               type="text"
               name="conversor"
               id="conversor"
-              placeholder="ex: USD, BRL, EUR"
+              placeholder="ex: 1"
               autoComplete="false"
               autoCorrect="false"
             />
@@ -77,14 +91,22 @@ export default function Home({ currencies: { data } }) {
             />
           </div>
         </section>
-
         <section className="mt-4">
           <h1 className="font-bold">Câmbio</h1>
-          <article className="space-x-4 text-4xl [&>*]:cursor-pointer">
-            <button title="REAL" className="fi fi-br"></button>
-            <button title="USD" className="fi fi-us"></button>
-            <button title="EURO" className="fi fi-eu"></button>
-          </article>
+          <span>De: </span>
+          <Dropdown
+            currencyList={data}
+            setInputValue={setFromCurrency}
+            inputValue={fromCurrency}
+            name={"from"}
+          />
+          <span className="ml-8">Para: </span>
+          <Dropdown
+            currencyList={data}
+            setInputValue={setToCurrency}
+            inputValue={toCurrency}
+            name={"to"}
+          />
         </section>
       </main>
     </>
@@ -92,7 +114,7 @@ export default function Home({ currencies: { data } }) {
 }
 
 export async function getServerSideProps(context) {
-  const url = `https://api.currencyapi.com/v3/latest?apikey=${process.env.API_KEY}&currencies=EUR%2CUSD%2CBRL`;
+  const url = `https://api.currencyapi.com/v3/latest?apikey=${process.env.API_KEY}`;
   const { data: currencies } = await axios.get(url);
 
   return {
