@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { AiOutlineArrowDown } from "react-icons/ai";
+import { getFlagClassFromCurrencyCode } from "@/utils/getFlagClassFromCurrencyCode";
 
 const Dropdown = ({ currencyList, name, inputValue, setInputValue }) => {
   const dropdownRef = useRef(null);
@@ -12,10 +13,6 @@ const Dropdown = ({ currencyList, name, inputValue, setInputValue }) => {
 
   const handleToggleDropdown = () => {
     setIsOpen((prevOpen) => !prevOpen);
-  };
-
-  const getFlagClassFromCurrencyCode = (code) => {
-    return `fi fi-${code.toLowerCase().slice(0, 2)} mr-1`;
   };
 
   useEffect(() => {
@@ -33,14 +30,14 @@ const Dropdown = ({ currencyList, name, inputValue, setInputValue }) => {
   }, []);
 
   return (
-    <div className="relative border-gray-500/50 shadow-sm inline-block mt-1 text-lg">
+    <div className="relative border-gray-500/50 shadow-sm inline-block m-2 text-lg">
       <div className="relative">
         <input
           value={inputValue}
           type="text"
           name="select"
           id="select"
-          className="pl-2 py-1 w-12 focus:outline-none border-[1px] text-gray-500 rounded-tl-lg rounded-bl-lg"
+          className="pl-2 py-1 w-14 focus:outline-none border-[1px] text-gray-500 rounded-tl-lg rounded-bl-lg"
           readOnly
         />
         <div
@@ -65,13 +62,14 @@ const Dropdown = ({ currencyList, name, inputValue, setInputValue }) => {
             {currencyList &&
               Object.values(currencyList).map((currency) => (
                 <button
+                  key={currency.code}
                   className="text-left px-2 py-1 hover:bg-gray-200"
                   onClick={() => select(currency.code)}
                 >
                   <span
                     className={getFlagClassFromCurrencyCode(currency.code)}
                   ></span>
-                  {currency.code}
+                  <span className="ml-2">{currency.code}</span>
                 </button>
               ))}
           </div>

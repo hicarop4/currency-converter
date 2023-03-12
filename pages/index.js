@@ -3,6 +3,7 @@ import Head from "next/head";
 const axios = require("axios");
 import { useState, useEffect } from "react";
 import { FaExchangeAlt } from "react-icons/fa";
+import { getFlagClassFromCurrencyCode } from "@/utils/getFlagClassFromCurrencyCode";
 
 export default function Home({ currencies: { data } }) {
   const [input, setInput] = useState("");
@@ -61,13 +62,13 @@ export default function Home({ currencies: { data } }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="bg-white min-w-[376px] px-8 py-6 rounded-lg shadow-lg border-gray-500/50 border-2">
+      <main className="bg-white sm:min-w-[376px] w-screen sm:w-auto px-4 sm:px-8 py-6 sm:py-6 sm:rounded-lg shadow-lg border-gray-500/50 sm:border-2">
         <section>
           <h1 className="font-bold">Conversor de moedas</h1>
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-3 items-center justify-between">
             <input
               onChange={handleInputChange}
-              className="input-text"
+              className="input-text w-full"
               value={input}
               type="text"
               name="conversor"
@@ -81,7 +82,7 @@ export default function Home({ currencies: { data } }) {
             </button>
             <input
               value={result}
-              className="input-text"
+              className="input-text w-full"
               type="text"
               name="conversor"
               id="conversor"
@@ -93,27 +94,38 @@ export default function Home({ currencies: { data } }) {
         </section>
         <section className="mt-4">
           <h1 className="font-bold">Câmbio</h1>
-          <span>De: </span>
-          <Dropdown
-            currencyList={data}
-            setInputValue={setFromCurrency}
-            inputValue={fromCurrency}
-            name={"from"}
-          />
-          <span className="ml-8">Para: </span>
-          <Dropdown
-            currencyList={data}
-            setInputValue={setToCurrency}
-            inputValue={toCurrency}
-            name={"to"}
-          />
+          <article className="flex sm:block items-center">
+            <span className="mr-1">De: </span>
+            <span
+              className={
+                getFlagClassFromCurrencyCode(fromCurrency) + " text-2xl"
+              }
+            ></span>
+            <Dropdown
+              currencyList={data}
+              setInputValue={setFromCurrency}
+              inputValue={fromCurrency}
+              name={"from"}
+            />
+
+            <span className="ml-8 mr-1">Para: </span>
+            <span
+              className={getFlagClassFromCurrencyCode(toCurrency) + " text-2xl"}
+            ></span>
+            <Dropdown
+              currencyList={data}
+              setInputValue={setToCurrency}
+              inputValue={toCurrency}
+              name={"to"}
+            />
+          </article>
         </section>
       </main>
     </>
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps() {
   const url = `https://api.currencyapi.com/v3/latest?apikey=${process.env.API_KEY}`;
   const { data: currencies } = await axios.get(url);
 
@@ -121,5 +133,6 @@ export async function getServerSideProps(context) {
     props: {
       currencies,
     }, // will be passed to the page component as props
+    revalidate: 3600,
   };
 }
