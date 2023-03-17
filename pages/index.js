@@ -1,7 +1,7 @@
 import Dropdown from "@/components/Dropdown";
 import Head from "next/head";
 const axios = require("axios");
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { FaExchangeAlt } from "react-icons/fa";
 import { getFlagClassFromCurrencyCode } from "@/utils/getFlagClassFromCurrencyCode";
 
@@ -12,7 +12,7 @@ export default function Home({ currencies: { data } }) {
   const [fromCurrency, setFromCurrency] = useState("BRL");
   const [toCurrency, setToCurrency] = useState("USD");
 
-  const formatInput = (text) => {
+  const formatInput = useCallback((text) => {
     // THANKS CHATGPT
     if (text === 0) return;
 
@@ -28,7 +28,7 @@ export default function Home({ currencies: { data } }) {
     });
 
     return formatText;
-  };
+  }, []);
 
   const calculation = (formatText) => {
     const coeficient = 1 / (data[fromCurrency].value / data[toCurrency].value);
@@ -57,10 +57,10 @@ export default function Home({ currencies: { data } }) {
   return (
     <>
       <Head>
-        <title>Meu app</title>
+        <title>Conversor de Moedas | Câmbio</title>
         <meta name="description" content="Conversor de moedas" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
       <main className="bg-white sm:min-w-[376px] w-screen sm:w-auto px-4 sm:px-8 py-6 sm:py-6 sm:rounded-lg shadow-lg border-gray-500/50 sm:border-2">
         <section>
@@ -94,11 +94,12 @@ export default function Home({ currencies: { data } }) {
         </section>
         <section className="mt-4">
           <h1 className="font-bold">Câmbio</h1>
-          <article className="flex sm:block items-center">
+          <article className="flex sm:block items-center mt-2">
             <span className="mr-1">De: </span>
             <span
               className={
-                getFlagClassFromCurrencyCode(fromCurrency) + " text-2xl"
+                getFlagClassFromCurrencyCode(fromCurrency) +
+                " sm:translate-y-[2px] text-[30px]"
               }
             ></span>
             <Dropdown
@@ -110,7 +111,10 @@ export default function Home({ currencies: { data } }) {
 
             <span className="ml-8 mr-1">Para: </span>
             <span
-              className={getFlagClassFromCurrencyCode(toCurrency) + " text-2xl"}
+              className={
+                getFlagClassFromCurrencyCode(toCurrency) +
+                " sm:translate-y-[2px] text-[30px]"
+              }
             ></span>
             <Dropdown
               currencyList={data}
@@ -133,6 +137,6 @@ export async function getStaticProps() {
     props: {
       currencies,
     }, // will be passed to the page component as props
-    revalidate: 3600,
+    revalidate: 3600, // will generate this page hourly
   };
 }

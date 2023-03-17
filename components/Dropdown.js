@@ -57,7 +57,7 @@ const Dropdown = ({ currencyList, name, inputValue, setInputValue }) => {
         <div id={"dropdown-" + name} ref={dropdownRef} className="dropdown">
           <div
             id="dropdown-wrapper"
-            className="flex flex-col max-h-48 overflow-y-scroll"
+            className="bg-white flex flex-col rounded-sm w-28 max-h-48 overflow-y-scroll"
           >
             {currencyList &&
               Object.values(currencyList).map((currency) => (

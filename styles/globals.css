@@ -4,7 +4,7 @@
 
 :root {
   --text-primary: #0f172a;
-  --highlight: #7c3aed;
+  --highlight: #ffa500;
   --chart-gradient-from: rgba(124, 58, 237, 0.5);
   --chart-gradient-to: rgba(124, 58, 237, 0);
   --text-secondary: #334155;
@@ -26,7 +26,7 @@
 }
 
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 6px;
 }
 
 /* Track */
@@ -37,7 +37,7 @@
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #888;
-  border-radius: 999px;
+  border-radius: 8px;
 }
 
 /* Handle on hover */

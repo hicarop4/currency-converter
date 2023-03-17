@@ -15,7 +15,7 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body className="text-primary font-roboto grid content-center justify-items-center bg-gray-100 h-screen">
+      <body className="text-primary bg-gray-200 font-roboto grid content-center justify-items-center h-screen">
         <Main />
         <NextScript />
       </body>
