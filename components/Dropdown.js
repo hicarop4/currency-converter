@@ -30,7 +30,7 @@ const Dropdown = ({ currencyList, name, inputValue, setInputValue }) => {
   }, []);
 
   return (
-    <div className="relative border-gray-500/50 shadow-sm inline-block m-2 text-lg">
+    <div className="relative translate-y-[-2px] rounded-lg border-gray-500/50 shadow-sm inline-block m-2 text-lg">
       <div className="relative">
         <input
           value={inputValue}
