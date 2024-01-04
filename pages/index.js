@@ -13,7 +13,6 @@ export default function Home({ currencies: { data } }) {
   const [toCurrency, setToCurrency] = useState("USD");
 
   const formatInput = useCallback((text) => {
-    // THANKS CHATGPT
     if (text === 0) return;
 
     // convert commas to dots
@@ -78,7 +77,7 @@ export default function Home({ currencies: { data } }) {
               autoCorrect="false"
             />
             <button onClick={invertCurrency}>
-              <FaExchangeAlt className="text-primary hover:text-gray-700 text-2xl transition-colors" />
+              <FaExchangeAlt className="text-primary hover:text-gray-700 active:text-gray-600 text-2xl transition-colors" />
             </button>
             <input
               value={result}
@@ -94,12 +93,12 @@ export default function Home({ currencies: { data } }) {
         </section>
         <section className="mt-4">
           <h1 className="font-bold">Câmbio</h1>
-          <article className="flex sm:block items-center mt-2">
+          <article className="flex items-center mt-2">
             <span className="mr-1">De: </span>
             <span
               className={
                 getFlagClassFromCurrencyCode(fromCurrency) +
-                " sm:translate-y-[2px] text-[30px]"
+                " mb-1 shrink-0 text-[30px]"
               }
             ></span>
             <Dropdown
@@ -113,7 +112,7 @@ export default function Home({ currencies: { data } }) {
             <span
               className={
                 getFlagClassFromCurrencyCode(toCurrency) +
-                " sm:translate-y-[2px] text-[30px]"
+                " mb-1 shrink-0 text-[30px]"
               }
             ></span>
             <Dropdown
