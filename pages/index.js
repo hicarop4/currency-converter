@@ -61,7 +61,7 @@ export default function Home({ currencies: { data } }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
-      <main className="bg-white sm:min-w-[376px] w-screen sm:w-auto px-4 sm:px-8 py-6 sm:py-6 sm:rounded-lg shadow-lg border-gray-500/50 sm:border-2">
+      <div className="bg-white sm:min-w-[376px] w-screen sm:w-auto px-4 sm:px-8 py-6 sm:py-6 sm:rounded-lg shadow-lg border-gray-500/50 sm:border-2">
         <section>
           <h1 className="font-bold">Conversor de moedas</h1>
           <div className="flex gap-3 items-center justify-between">
@@ -77,7 +77,7 @@ export default function Home({ currencies: { data } }) {
               autoCorrect="false"
             />
             <button onClick={invertCurrency}>
-              <FaExchangeAlt className="text-primary hover:text-gray-700 active:text-gray-600 text-2xl transition-colors" />
+              <FaExchangeAlt className="text-primary active:scale-90 transition-all hover:text-gray-700 active:text-gray-600 text-2xl" />
             </button>
             <input
               value={result}
@@ -123,7 +123,7 @@ export default function Home({ currencies: { data } }) {
             />
           </article>
         </section>
-      </main>
+      </div>
     </>
   );
 }

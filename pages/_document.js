@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import Header from "@/components/Header";
 
 export default function Document() {
   return (
@@ -15,9 +16,12 @@ export default function Document() {
           rel="stylesheet"
         />
       </Head>
-      <body className="text-primary bg-gray-200 font-roboto grid content-center justify-items-center h-screen">
-        <Main />
-        <NextScript />
+      <body>
+        <Header />
+        <main className="text-primary bg-gray-200 font-roboto grid content-center justify-items-center h-screen">
+          <Main />
+          <NextScript />
+        </main>
       </body>
     </Html>
   );
